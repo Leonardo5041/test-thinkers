@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Actor } from './actor.entity';
 
 @Entity('movies')
 export class Movie {
@@ -10,4 +11,8 @@ export class Movie {
 
   @Column()
   releaseYear: number;
+
+  @ManyToMany(() => Actor, (actor) => actor.movies)
+  @JoinTable({ name: 'movies_actors', joinColumn: { name: 'movie_id' }, inverseJoinColumn: { name: 'actor_id' } })
+  actors: Actor[];
 }
